@@ -6,8 +6,8 @@ class Navbar extends Component {
   render() {
     return (
       <div>
-        <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="#">Navbar</a>
+        <nav className="navbar navbar-light bg-light">
+          <a className="navbar-brand">Navbar</a>
           <Searchbar />
         </nav>
       </div>
