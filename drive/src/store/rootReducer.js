@@ -7,6 +7,7 @@ import uploadReducer from './reducers/uploadReducer'
 import removeReducer from './reducers/removeReducer'
 
 const rootReducer = combineReducers({
+  firebase: firebaseReducer,
   firestore: firestoreReducer,
   remove: removeReducer,
   download: downloadReducer,
