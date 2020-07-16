@@ -26,7 +26,7 @@ export const uploadFile = (f = {}) => {
   return (dispatch, getState) => {
     var state = getState()
     let file = f.files[0]
-    let storageFolder = '/'
+    let storageFolder = '/images'
     let fileName = file.name
     let storageRef = storage.ref(storageFolder + fileName)
 

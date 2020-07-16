@@ -5,34 +5,34 @@ import { Provider } from 'react-redux'
 import 'firebase/firestore'
 import 'firebase/storage'
 import { createStore, applyMiddleware, compose } from 'redux'
-import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore'
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
+// import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore'
+// import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 
 import App from './App'
 import rootReducer from './store/rootReducer'
-import { firebase, rrfConfig } from './config/firebase'
+// import { firebase, rrfConfig } from './config/firebase'
 
 const store = createStore(
   rootReducer,
   //compose(
-    applyMiddleware(thunk.withExtraArgument(getFirebase, getFirestore)) // diff from docs
+    applyMiddleware(thunk/*.withExtraArgument(getFirebase, getFirestore)*/) // diff from docs
   //)
 )
 
 
 // redux-firestore configuration
-const rrfProps = {
-  firebase,
-  config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance
-}
+// const rrfProps = {
+//   firebase,
+//   config: rrfConfig,
+//   dispatch: store.dispatch,
+//   createFirestoreInstance
+// }
 
 ReactDOM.render(
   <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
+    
       <App />
-    </ReactReduxFirebaseProvider>
+    
   </Provider>,
   document.getElementById('root')
 )

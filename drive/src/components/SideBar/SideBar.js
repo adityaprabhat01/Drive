@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 
+import { uploadFile } from '../../store/actions/uploadAction'
+import { connect } from 'react-redux'
+
 class SideBar extends Component {
   render() {
 
     const { uploadFile } = this.props
-
+  
     const handleUploadFile = (e) => {
       e.preventDefault()
       const f = document.getElementById('upload-file')
@@ -35,4 +38,11 @@ class SideBar extends Component {
     )
   }
 }
-export default SideBar
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    uploadFile: (file) => dispatch(uploadFile(file))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SideBar)
