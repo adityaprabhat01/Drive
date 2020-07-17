@@ -1,24 +1,39 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import { firebase } from '../../config/firebase'
+import { createAccount } from '../../store/actions/createAccountAction'
+import { connect } from 'react-redux'
 
 class SignUp extends Component {
 
   state = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    uid: '',
+    isSignedUp: false
   }
 
   handleChange = e => {
-
+    this.setState({
+      [e.target.id]: e.target.value
+    })
   }
 
   handleSubmit = e => {
     e.preventDefault()
+    const { createAccount } = this.props
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .catch(function (error) {
+
+    .then(data => {
+      const uid = data.user.uid
+      this.setState({ uid: uid })
+      createAccount(this.state)
+      this.setState({ isSignedUp: true })
+    })
+
+    .catch(error => {
       var errorCode = error.code;
       var errorMessage = error.message;
       if (errorCode == 'auth/weak-password') {
@@ -28,9 +43,36 @@ class SignUp extends Component {
       }
       console.log(error);
     })
+
   }
 
   render() {
+
+    if (this.state.isSignedUp) {
+
+      const { uid } = this.state
+
+      // firebase.auth().onAuthStateChanged(function (user) {
+      //   if (user) {
+      //     var uid = user.uid;
+      //   }
+      //   else {
+      //   }
+      // })
+
+
+
+      return (
+        <Redirect
+          to={{
+            pathname: '/drive',
+            state: {
+              uid
+            }
+          }}
+        />
+      )
+    }
 
     return (
       <div className="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
@@ -46,7 +88,7 @@ class SignUp extends Component {
                   <span className="font-weight-light">Name</span>
                 </div>
                 <div>
-                  <input type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ name: event.target.value })} />
+                  <input id="name" type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={this.handleChange} />
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
@@ -56,7 +98,7 @@ class SignUp extends Component {
                   <span className="font-weight-light">Email</span>
                 </div>
                 <div>
-                  <input type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ email: event.target.value })} />
+                  <input id="email" type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={this.handleChange} />
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
@@ -66,7 +108,7 @@ class SignUp extends Component {
                   <span className="font-weight-light">Username</span>
                 </div>
                 <div>
-                  <input type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                  <input id="username" type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={this.handleChange} />
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
@@ -76,7 +118,7 @@ class SignUp extends Component {
                   <span className="font-weight-light">Password</span>
                 </div>
                 <div>
-                  <input type="password" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                  <input id="password" type="password" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={this.handleChange} />
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
@@ -90,4 +132,10 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createAccount: (uid) => dispatch(createAccount(uid))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignUp)

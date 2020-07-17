@@ -1,6 +1,5 @@
 const initState = {}
 
-// still returning prev state
 const firestoreReducer = (state = initState, action) => {
   
   switch (action.type) {
@@ -16,7 +15,7 @@ const firestoreReducer = (state = initState, action) => {
       break
 
     case 'DATA_RECEIVED':
-      console.log('data received')
+      console.log('data received', action.data)
       return {
         ...state,
         firestore: action.data

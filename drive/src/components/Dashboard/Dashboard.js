@@ -7,17 +7,34 @@ import FolderView from '../folder/FolderView'
 import FileView from '../file/FileView'
 
 class Dashboard extends Component {
-  render() {
-    // console.log(this.props)
+
+  state = { 
+    files: false,
+    folders: false,
+    f1: null,
+    f2: null
+  }
+  
+  componentDidMount() {
     const { downloadFile, removeFile, files, folders } = this.props
-    
-    var f1 = Object.keys(folders)
-    var f2 = Object.keys(files)
+    if (folders) {
+      var f1 = Object.keys(folders)
+      this.setState({ folders: true, f1: f1 })
+    }
+    if (files) {
+      var f2 = Object.keys(files)
+      this.setState({ files: true, f1: f1 })
+    }
+  }
+
+  render() {
+    const { downloadFile, removeFile, files, folders } = this.props
+    const { f1, f2 } = this.state
 
     return (
       <div>
-        <FolderView files={f2} folders={f1} />
-        <FileView files={files} />
+        { this.state.files ? ( <FileView files={files} /> ) : null }
+        { this.state.folders ? ( <FolderView files={f2} folders={f1} /> ) : null }
         <button type="button" className="btn btn-outline-primary" onClick={downloadFile}>Download</button>
         <button type="button" className="btn btn-outline-primary" onClick={removeFile}>Remove</button>
       </div>
@@ -33,7 +50,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state)
   return {
     files: state.firestore.firestore.files,
     folders: state.firestore.firestore.folders

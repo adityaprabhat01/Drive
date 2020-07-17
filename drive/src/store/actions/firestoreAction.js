@@ -1,8 +1,5 @@
 import { db } from '../../config/firebase'
 
-// user dependent
-const u = 'FgNx3Hw1ZLCxLfMjvB1u'
-
 function dataRequest() {
   return {
     type: 'REQUEST_DATA'
@@ -22,10 +19,10 @@ function dataFailure() {
   }
 }
 
-export const firestore = () => { 
+export const firestore = (uid) => { 
   return async (dispatch, getState) => {
     dispatch(dataRequest())
-    await db.collection('users').doc(u).get()
+    await db.collection('users').doc(uid).get()
       .then(doc => {
         dispatch(dataReceived(doc.data()))
     })
