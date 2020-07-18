@@ -29,10 +29,10 @@ class Drive extends Component {
 
     return (
       <div className="container-fluid p-1 d-flex flex-column">
-        { user ? (<span>{user.name}</span>) : null }
+        {user ? (<span>{user.name}</span>) : null}
         <Navbar />
         <div className="d-flex flex-row">
-          <SideBar />
+          {this.state.isUserLoaded ? (<SideBar />) : null}
           {this.state.isUserLoaded ? (<Dashboad />) : null}
         </div>
       </div>

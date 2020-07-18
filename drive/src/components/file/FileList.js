@@ -5,10 +5,9 @@ import File from './File'
 const FileList = (props) => {
   const { files } = props
   const renderList = Object.keys(files).map(file => {
-    
     return (
       
-        <File file={files[file]} />
+        <File url={files[file]} fileName={file} />
       
     )
   })

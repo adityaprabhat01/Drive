@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
-
-import { uploadFile } from '../../store/actions/uploadAction'
 import { connect } from 'react-redux'
+
+import { firestore } from '../../store/actions/firestoreAction'
+import { uploadFile } from '../../store/actions/uploadAction'
+import { createFolder } from '../../store/actions/createFolderAction'
 
 class SideBar extends Component {
   render() {
 
-    const { uploadFile } = this.props
-  
+    const { uploadFile, createFolder ,firestore } = this.props
+    const { uid, files, folders } = firestore
+    
     const handleUploadFile = (e) => {
       e.preventDefault()
       const f = document.getElementById('upload-file')
-      uploadFile(f)
+      uploadFile(f, uid, files)
+    }
+
+    const handleCreateFolder = (e) => {
+      e.preventDefault()
+      createFolder('adityaImages', uid)
     }
     
     return (
@@ -28,7 +36,7 @@ class SideBar extends Component {
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <button type="button" className="btn  btn-outline-primary dropdown-item" onClick={handleUploadFile}>File Upload</button>
             <button type="button" className="btn  btn-outline-primary dropdown-item">Folder Upload</button>
-            <button type="button" className="btn btn-outline-primary dropdown-item">Create Folder</button>
+            <button type="button" className="btn btn-outline-primary dropdown-item" onClick={handleCreateFolder}>Create Folder</button>
           </div>
         </div>
 
@@ -41,8 +49,15 @@ class SideBar extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    uploadFile: (file) => dispatch(uploadFile(file))
+    uploadFile: (file, uid, files) => dispatch(uploadFile(file, uid, files)),
+    createFolder: (f, uid) => dispatch(createFolder(f, uid))
   }
 }
 
-export default connect(null, mapDispatchToProps)(SideBar)
+const mapStateToProps = (state) => {
+  return {
+    firestore: state.firestore.firestore
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar)

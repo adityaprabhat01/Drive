@@ -70,7 +70,7 @@ class SignIn extends Component {
 
           <form className="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.handleSubmit}>
             <div className="pb-2">
-              <span><h2>Log in to Twitter</h2></span>
+              <span><h2>Log in to Drive</h2></span>
             </div>
             <div className="form-group mt-3 form-font">
               <div className="bg-light rounded mt-3">

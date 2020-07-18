@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import { firebase } from '../../config/firebase'
 import { createAccount } from '../../store/actions/createAccountAction'
-import { connect } from 'react-redux'
 
 class SignUp extends Component {
 

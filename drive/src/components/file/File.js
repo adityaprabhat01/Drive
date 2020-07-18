@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 class File extends Component {
   state = {
-    fileName: this.props.file.name,
-    url: this.props.file.url
+    fileName: this.props.fileName,
+    url: this.props.url
   }
   render() {
     return (
@@ -18,9 +18,6 @@ class File extends Component {
           </div>
           <span className="text-center">{this.state.fileName}</span>
         </a>
-
-
-
       </div>
     )
   }
