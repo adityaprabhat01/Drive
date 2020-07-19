@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom'
 import Folder from './Folder'
 
 const FolderList = (props) => {
-  var { files, folders } = props
+  var { files, folders, empty } = props
   const renderList = folders.map(folder => {
     return (
-      <Folder files={files} folder={folder} />
+      <Folder files={files} folder={folder} empty={empty} />
     )
   })
   return (

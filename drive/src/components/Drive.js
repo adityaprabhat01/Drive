@@ -5,6 +5,7 @@ import Navbar from './Navbar/Navbar'
 import SideBar from './SideBar/SideBar'
 import Dashboad from './Dashboard/Dashboard'
 import { firestore } from '../store/actions/firestoreAction'
+import { currentLocation } from '../store/actions/currentLocationAction'
 
 class Drive extends Component {
 
@@ -43,7 +44,8 @@ class Drive extends Component {
 // these actionCreators will be inside props of the component
 const mapDispatchToProps = (dispatch) => {
   return {
-    firestore: (uid) => dispatch(firestore(uid))
+    firestore: (uid) => dispatch(firestore(uid)),
+    currentLocation: () => dispatch(currentLocation())
   }
 }
 

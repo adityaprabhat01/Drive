@@ -16,7 +16,7 @@ class Dashboard extends Component {
     f2: null,
     f3: null
   }
-  
+
   componentDidMount() {
     const { downloadFile, removeFile, files, folders, emptyFolders } = this.props
     if (folders) {
@@ -41,7 +41,7 @@ class Dashboard extends Component {
       <div>
         { this.state.files ? ( <FileView files={files} /> ) : null }
         { this.state.folders ? ( <FolderView files={f2} folders={f1} /> ) : null }
-        { this.state.emptyFolders ? ( <FolderView folders={f3} /> ) : null }
+        { this.state.emptyFolders ? ( <FolderView folders={f3} empty={true} /> ) : null }
         <button type="button" className="btn btn-outline-primary" onClick={downloadFile}>Download</button>
         <button type="button" className="btn btn-outline-primary" onClick={removeFile}>Remove</button>
       </div>
@@ -57,6 +57,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     files: state.firestore.firestore.files,
     folders: state.firestore.firestore.folders,
