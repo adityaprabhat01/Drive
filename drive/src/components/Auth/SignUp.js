@@ -12,7 +12,8 @@ class SignUp extends Component {
     email: '',
     password: '',
     uid: '',
-    isSignedUp: false
+    isSignedUp: false,
+    spinner: false
   }
 
   handleChange = e => {
@@ -24,16 +25,18 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { createAccount } = this.props
+    // put spinner on button
+    this.setState({ spinner: true })
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-
     .then(data => {
       const uid = data.user.uid
       this.setState({ uid: uid })
       createAccount(this.state)
-      this.setState({ isSignedUp: true })
+      this.setState({ isSignedUp: true, spinner: false })
     })
 
     .catch(error => {
+      // render these messages with DOM elements
       var errorCode = error.code;
       var errorMessage = error.message;
       if (errorCode == 'auth/weak-password') {

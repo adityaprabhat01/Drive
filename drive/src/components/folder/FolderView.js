@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom'
 import FolderList from './FolderList'
 
 const FolderView = (props) => {
-  var { files, folders, empty } = props
+  var { folders } = props
   return (
     <div>
-      <FolderList files={files} folders={folders} empty={empty} />
+      <FolderList folders={folders} />
     </div>
   )
 }

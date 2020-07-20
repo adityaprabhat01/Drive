@@ -24,6 +24,5 @@ export const createFolder = (fName, uid) => {
       ...firestore.firestore,
       emptyFolders: firestore.firestore.emptyFolders
     })
-
   }
 }

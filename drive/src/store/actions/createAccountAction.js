@@ -6,28 +6,30 @@ function request() {
   }
 }
 
-function received() {
+function received(data) {
   return {
-    type: 'ACCOUNT_CREATED'
+    type: 'ACCOUNT_CREATED',
+    data
   }
 }
 
 export const createAccount = (userData) => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const files = new Object()
     const folders = new Object()
-    const emptyFolders = new Object()
     dispatch(request())
     const { name, email, uid } = userData
-    await db.collection('users').doc(uid).set({
-      name,
+    const user = {
       email,
-      uid,
-      files,
-      folders,
-      emptyFolders
-    })
-    .then(() => dispatch(received()))
+      files: {},
+      folders: {},
+      name: uid,
+      username: name
+    }
+    db.collection('users').doc(uid).set(
+      user
+    )
+    .then(() => dispatch(received(user)))
     .catch(e => console.log(e))
   }
 }

@@ -1,4 +1,18 @@
 const initState = {}
+let count = 0
+
+function addId (obj) {
+  for (let key in obj) {
+    if(typeof(obj[key]) === 'object' &&  obj.name) {
+      obj['id'] = count++
+      addId(obj[key])
+    }
+    else if (typeof(obj[key]) === 'object') {
+      addId(obj[key])
+    }
+  }
+  return obj
+}
 
 const firestoreReducer = (state = initState, action) => {
   
@@ -16,9 +30,11 @@ const firestoreReducer = (state = initState, action) => {
 
     case 'DATA_RECEIVED':
       console.log('data received')
+      const data = addId(action.data)
+      console.log(data)
       return {
         ...state,
-        firestore: action.data
+        firestore: data
       }
       break
 
