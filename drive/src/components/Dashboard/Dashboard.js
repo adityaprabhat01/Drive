@@ -6,6 +6,7 @@ import { recursiveTraversal } from '../../store/actions/recursiveTraversalAction
 import { currentPath } from '../../store/actions/currentPathAction'
 import { downloadFile } from '../../store/actions/downloadAction'
 import { removeFile } from '../../store/actions/removeAction'
+import Breadcrumb from '../infobar/Breadcrumb'
 import FolderView from '../folder/FolderView'
 import FileView from '../file/FileView'
 
@@ -15,7 +16,8 @@ class Dashboard extends Component {
     files: false,
     folders: false,
     f1: [],
-    open: false
+    open: false,
+    home: false
   }
 
   componentDidMount() {
@@ -23,14 +25,14 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.path !== this.props.path) {
+    if (prevProps.path !== this.props.path) {
       this.setState({ open: true })
     }
   }
 
   loadDashboard = () => {
     const { files, folders } = this.props
-
+    this.setState({ home: true })
     if (files) {
       this.setState({ files: true })
     }
@@ -42,13 +44,13 @@ class Dashboard extends Component {
           id: folders[key].id
         }
       })
-      
+
       fs.map((f) => {
         this.setState(prevState => ({
           f1: [...prevState.f1, f]
         }))
       })
-      
+
       this.setState({ folders: true })
     }
   }
@@ -63,32 +65,40 @@ class Dashboard extends Component {
   }
 
   openFolder = (e, id) => {
-    e.preventDefault()
-    this.setState({ open: false })
+    this.setState({ open: false, home: false })
     const { currentPath, recursiveTraversal } = this.props
     currentPath(id)
     recursiveTraversal(id)
+  }
+
+  goToHome = () => {
+    this.setState({ home: true, open: false })
   }
 
   render() {
 
     const { files, path } = this.props
     const { f1 } = this.state
-
     if (this.state.open) {
       const p = path.currentPath.path
       return (
-        <Redirect to={{ pathname: '/folder' + p }} />
+        <Redirect to={{ pathname: '/folder' + p }}  />
       )
     }
 
-    return (
-      <div>
-        {this.state.files ? (<FileView files={files} />) : null}
-        {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} />) : null}
-        <button type="button" className="btn btn-outline-primary">Download</button>
-        <button type="button" className="btn btn-outline-primary">Remove</button>
-      </div>
+    if (this.state.home) {
+      return (
+        <div>
+          {this.state.files ? (<FileView files={files} />) : null}
+          {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} />) : null}
+          <button type="button" className="btn btn-outline-primary">Download</button>
+          <button type="button" className="btn btn-outline-primary">Remove</button>
+        </div>
+      )
+    }
+
+    return(
+      <div>Loading</div>
     )
   }
 }
@@ -98,12 +108,14 @@ const mapDispatchToProps = (dispatch) => {
     downloadFile: file => dispatch(downloadFile(file)),
     removeFile: file => dispatch(removeFile(file)),
     recursiveTraversal: id => dispatch(recursiveTraversal(id)),
-    currentPath: id => dispatch(currentPath(id))
+    currentPath: (id, back) => dispatch(currentPath(id, back))
   }
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
+    id: state.firestore.firestore.id,
     files: state.firestore.firestore.files,
     folders: state.firestore.firestore.folders,
     pwd: state.pwd,

@@ -7,6 +7,12 @@ const currentPathReducer = (state = initState, action) => {
         ...state,
         currentPath: action.data
       }
+
+    case 'GO_BACK':
+      return {
+        ...state,
+        currentPath: action.data
+      }
     default:
       return state
   }

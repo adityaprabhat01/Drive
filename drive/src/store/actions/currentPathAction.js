@@ -16,28 +16,26 @@ function recursion(obj, id) {
   }
 }
 
-function createPath (breadcrum) {
+function createPath (breadcrumb) {
   let path = ''
-  breadcrum.forEach(element => {
+  breadcrumb.forEach(element => {
     path = path + '/' + element.name
   })
   return path
 }
 
 function gotoLoc (id) {
-  // recursion(user, 'user', id)
-  // r contains the ahead object
-  for (let i=0;i<breadcrum.length;i++) {
-    if (breadcrum[i].id == id) {
-      for (let j=breadcrum.length - 1;j>i;j--){
-        breadcrum.pop(breadcrum[j])
+  for (let i=0;i<breadcrumb.length;i++) {
+    if (breadcrumb[i].id == id) {
+      for (let j=breadcrumb.length - 1;j>i;j--){
+        breadcrumb.pop(breadcrumb[j])
       }
       break
     }
   }
 }
 
-var breadcrum = []
+var breadcrumb = []
 
 function ahead (data) {
   return {
@@ -46,12 +44,25 @@ function ahead (data) {
   }
 }
 
-export const currentPath = (id) => {
+function behind (data) {
+  return {
+    type: 'GO_BACK',
+    data
+  }
+}
+
+export const currentPath = (id, back) => {
   return (dispatch, getState) => {
     const firestore = getState().firestore.firestore
     recursion(firestore, id)
-    breadcrum.push(f)
-    var path = createPath(breadcrum)
-    dispatch(ahead({ breadcrum, path }))
+    if (back) {
+      gotoLoc(id)
+    }
+    else {
+      breadcrumb.push(f)
+      console.log(f)
+    }
+    var path = createPath(breadcrumb)
+    dispatch(ahead({ breadcrumb, path }))
   }
 }

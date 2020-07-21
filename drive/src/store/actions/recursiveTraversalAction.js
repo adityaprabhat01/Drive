@@ -26,11 +26,7 @@ function pwd_obj(data) {
 export const recursiveTraversal = (id) => {
   return (dispatch, getState) => {
     const firestore = getState().firestore.firestore
-
-    
     recursion(firestore, id)
-    
-    
     dispatch(pwd_obj({ f, r }))
   }
 }
