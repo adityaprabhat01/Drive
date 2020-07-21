@@ -31,4 +31,12 @@ export const recursiveTraversal = (id) => {
   }
 }
 
+export const homePwd = () => {
+  return (dispatch, getState) => {
+    f = null
+    r = null
+    dispatch(pwd_obj({ f, r }))
+  }
+}
+
 export default recursion

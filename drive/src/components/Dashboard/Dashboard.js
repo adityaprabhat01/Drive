@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { recursiveTraversal } from '../../store/actions/recursiveTraversalAction'
-import { currentPath } from '../../store/actions/currentPathAction'
+import { recursiveTraversal, homePwd } from '../../store/actions/recursiveTraversalAction'
+import { currentPath, atHome } from '../../store/actions/currentPathAction'
 import { downloadFile } from '../../store/actions/downloadAction'
 import { removeFile } from '../../store/actions/removeAction'
-import Breadcrumb from '../infobar/Breadcrumb'
 import FolderView from '../folder/FolderView'
 import FileView from '../file/FileView'
 
@@ -25,13 +24,14 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // try hasOwnProperty()
     if (prevProps.path !== this.props.path) {
       this.setState({ open: true })
     }
   }
 
   loadDashboard = () => {
-    const { files, folders } = this.props
+    const { files, folders, atHome } = this.props
     this.setState({ home: true })
     if (files) {
       this.setState({ files: true })
@@ -53,6 +53,8 @@ class Dashboard extends Component {
 
       this.setState({ folders: true })
     }
+    atHome()
+    //homePwd()
   }
 
   loadFolder = () => {
@@ -108,7 +110,9 @@ const mapDispatchToProps = (dispatch) => {
     downloadFile: file => dispatch(downloadFile(file)),
     removeFile: file => dispatch(removeFile(file)),
     recursiveTraversal: id => dispatch(recursiveTraversal(id)),
-    currentPath: (id, back) => dispatch(currentPath(id, back))
+    currentPath: (id, back) => dispatch(currentPath(id, back)),
+    atHome: () => dispatch(atHome()),
+    homePwd: () => dispatch(homePwd())
   }
 }
 

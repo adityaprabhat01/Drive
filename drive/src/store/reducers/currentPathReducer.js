@@ -13,6 +13,7 @@ const currentPathReducer = (state = initState, action) => {
         ...state,
         currentPath: action.data
       }
+
     default:
       return state
   }

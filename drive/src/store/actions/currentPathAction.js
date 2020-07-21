@@ -51,6 +51,13 @@ function behind (data) {
   }
 }
 
+function home (data) {
+  return {
+    type: 'AT_HOME',
+    data
+  }
+}
+
 export const currentPath = (id, back) => {
   return (dispatch, getState) => {
     const firestore = getState().firestore.firestore
@@ -60,9 +67,16 @@ export const currentPath = (id, back) => {
     }
     else {
       breadcrumb.push(f)
-      console.log(f)
     }
     var path = createPath(breadcrumb)
     dispatch(ahead({ breadcrumb, path }))
+  }
+}
+
+export const atHome = () => {
+  return (dispatch, getState) => {
+    breadcrumb = []
+    var path = {}
+    dispatch(home({ breadcrumb, path }))
   }
 }
