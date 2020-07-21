@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   upload: uploadReducer,
   firestore: firestoreReducer,
   createFolder: createFolderReducer,
-  recrsiveTraversal: recursiveTraversalReducer,
+  pwd: recursiveTraversalReducer,
   currentPath: currentPathReducer
 })
 

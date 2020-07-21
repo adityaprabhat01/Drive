@@ -29,7 +29,7 @@ class Drive extends Component {
 
     return (
       <div className="container-fluid p-1 d-flex flex-column">
-        {user ? (<span>{user.name}</span>) : null}
+        {user ? (<span>{user.username}</span>) : null}
         <Navbar />
         <div className="d-flex flex-row">
           {this.state.isUserLoaded ? (<SideBar />) : null}
@@ -49,7 +49,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.firestore.firestore
+    user: state.firestore.firestore,
+    path: state.currentPath
   }
 }
 

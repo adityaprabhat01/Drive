@@ -1,13 +1,12 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import FolderList from './FolderList'
 
 const FolderView = (props) => {
-  var { folders } = props
+  var { folders, openFolder } = props
   return (
     <div>
-      <FolderList folders={folders} />
+      <FolderList folders={folders} openFolder={openFolder} />
     </div>
   )
 }

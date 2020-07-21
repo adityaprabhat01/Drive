@@ -3,7 +3,7 @@ const recursiveTraversalReducer = (state = {}, action) => {
     case 'GET_PWD_OBJ':
       return {
         ...state,
-        recursiveTraversal: action.data
+        pwd: action.data
       }
       break
     default:

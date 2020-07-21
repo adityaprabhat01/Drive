@@ -29,9 +29,7 @@ const firestoreReducer = (state = initState, action) => {
       break
 
     case 'DATA_RECEIVED':
-      console.log('data received')
       const data = addId(action.data)
-      console.log(data)
       return {
         ...state,
         firestore: data

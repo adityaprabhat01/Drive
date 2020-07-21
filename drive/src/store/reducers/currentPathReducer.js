@@ -2,7 +2,7 @@ const initState = {}
 
 const currentPathReducer = (state = initState, action) => {
   switch (action.type){
-    case 'UPDATE_CURRENT_PATH':
+    case 'MOVE_AHEAD':
       return {
         ...state,
         currentPath: action.data
