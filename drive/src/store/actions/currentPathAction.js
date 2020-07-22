@@ -1,5 +1,27 @@
 var f = null // name and id
 var r = null
+var breadcrumb = []
+
+function ahead (data) {
+  return {
+    type: 'MOVE_AHEAD',
+    data
+  }
+}
+
+function behind (data) {
+  return {
+    type: 'GO_BACK',
+    data
+  }
+}
+
+function home (data) {
+  return {
+    type: 'AT_HOME',
+    data
+  }
+}
 
 function recursion(obj, id) {
   for (let key in obj) {
@@ -9,6 +31,7 @@ function recursion(obj, id) {
         id
       }
       r = obj
+      break
     }
     if(typeof(obj[key]) === 'object') {
       recursion(obj[key], id)
@@ -35,32 +58,12 @@ function gotoLoc (id) {
   }
 }
 
-var breadcrumb = []
-
-function ahead (data) {
-  return {
-    type: 'MOVE_AHEAD',
-    data
-  }
-}
-
-function behind (data) {
-  return {
-    type: 'GO_BACK',
-    data
-  }
-}
-
-function home (data) {
-  return {
-    type: 'AT_HOME',
-    data
-  }
-}
+/* ACTION CREATORS */
 
 export const currentPath = (id, back) => {
   return (dispatch, getState) => {
     const firestore = getState().firestore.firestore
+    // let breadcrumb = getState().currentPath.currentPath.breadcrumb
     recursion(firestore, id)
     if (back) {
       gotoLoc(id)

@@ -5,12 +5,12 @@ import EmptyFolder from '../folder/EmptyFolder'
 class Folder extends Component {
   state = {
     f: this.props.folder,
-    openFolder: this.props.openFolder
+    source: this.props.source
   }
 
   handleOpenFolder = (e) => {
     e.preventDefault()
-    this.props.openFolder(e, this.state.f.id)
+    this.props.openFolder(e, this.state.f.id, false)
   }
   
   render() {
@@ -24,7 +24,7 @@ class Folder extends Component {
 
     //   }
     // }
-
+    
     return (
       <div className="d-flex flex-column border border-dark">
         <svg onClick={this.handleOpenFolder} width="5em" height="5em" viewBox="0 0 16 16" className="bi bi-folder" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

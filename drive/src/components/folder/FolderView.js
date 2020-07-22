@@ -3,10 +3,10 @@ import React from 'react'
 import FolderList from './FolderList'
 
 const FolderView = (props) => {
-  var { folders, openFolder } = props
+  var { folders, openFolder, source } = props
   return (
     <div>
-      <FolderList folders={folders} openFolder={openFolder} />
+      <FolderList folders={folders} openFolder={openFolder} source={source} />
     </div>
   )
 }

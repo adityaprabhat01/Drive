@@ -12,27 +12,31 @@ import FileView from '../file/FileView'
 class Dashboard extends Component {
 
   state = {
+    f1: [],
     files: false,
     folders: false,
-    f1: [],
     open: false,
     home: false
   }
 
   componentDidMount() {
+    const { atHome } = this.props
+    atHome()
     this.loadDashboard()
   }
 
   componentDidUpdate(prevProps) {
-    // try hasOwnProperty()
     if (prevProps.path !== this.props.path) {
-      this.setState({ open: true })
+      if (this.props.path.currentPath.breadcrumb.length) {
+        this.setState({ open: true })
+      }
     }
   }
 
   loadDashboard = () => {
     const { files, folders, atHome } = this.props
     this.setState({ home: true })
+
     if (files) {
       this.setState({ files: true })
     }
@@ -53,17 +57,8 @@ class Dashboard extends Component {
 
       this.setState({ folders: true })
     }
-    atHome()
-    //homePwd()
-  }
 
-  loadFolder = () => {
-    const { pwd } = this.props
-    const { f, r } = pwd.pwd
-    var folderArray = Object.keys(r.folders).map(key => {
-      return r.folders[key]
-    })
-    return [f, folderArray, r.files]
+    //homePwd()
   }
 
   openFolder = (e, id) => {
@@ -81,6 +76,7 @@ class Dashboard extends Component {
 
     const { files, path } = this.props
     const { f1 } = this.state
+
     if (this.state.open) {
       const p = path.currentPath.path
       return (
@@ -92,7 +88,7 @@ class Dashboard extends Component {
       return (
         <div>
           {this.state.files ? (<FileView files={files} />) : null}
-          {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} />) : null}
+          {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} source='home' />) : null}
           <button type="button" className="btn btn-outline-primary">Download</button>
           <button type="button" className="btn btn-outline-primary">Remove</button>
         </div>
@@ -100,7 +96,7 @@ class Dashboard extends Component {
     }
 
     return(
-      <div>Loading</div>
+      <div>Loading Dashboard</div>
     )
   }
 }

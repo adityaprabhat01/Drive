@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom'
 class Breadcrumb extends Component {
 
   state = {
-    back: false,
     home: false
   }
 
@@ -16,18 +15,11 @@ class Breadcrumb extends Component {
     }
     return lis
   }
-
-  componentDidUpdate(prevProps) {
-    if(prevProps.path !== this.props.path) {
-      this.setState({ back: true })
-    }
-  }
   
-
   handleClick = (e) => {
     e.preventDefault()
     const id = e.target.id
-    this.props.openFolder(e, e.target.id, true)
+    this.props.openFolder(e, id, true)
   }
 
   goToHome = (e) => {
@@ -57,15 +49,10 @@ class Breadcrumb extends Component {
   }
 }
 
-
-
-
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     path: state.currentPath,
     id: state.firestore.firestore.name,
-    pwd: state.pwd
   }
 }
 

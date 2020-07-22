@@ -13,7 +13,12 @@ const currentPathReducer = (state = initState, action) => {
         ...state,
         currentPath: action.data
       }
-
+    
+    case 'AT_HOME':
+      return {
+        ...state,
+        currentPath: action.data
+      }
     default:
       return state
   }

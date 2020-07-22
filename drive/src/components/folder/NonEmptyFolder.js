@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import FolderView from './FolderView'
 import FileView from '../file/FileView'
@@ -10,7 +11,8 @@ import { currentPath } from '../../store/actions/currentPathAction'
 class NonEmptyFolder extends Component {
 
   state = {
-    open: false
+    open: false,
+    others: false
   }
 
   componentDidMount() {
@@ -33,25 +35,30 @@ class NonEmptyFolder extends Component {
   }
 
   openFolder = (e, id, back) => {
-    this.setState({ open: false })
+    this.setState({ open: false, others: true })
     const { currentPath, recursiveTraversal } = this.props
     currentPath(id, back)
     recursiveTraversal(id)
   }
-
-  goToHome = () => {
-    this.setState({ open: true })
-  }
-
+  
   render() {
+
     if (this.state.open) {
       const [f,r, files] = this.loadFolder()
       return (
         <div>
           <Breadcrumb openFolder={this.openFolder} />  
-          <FolderView folders={r} openFolder={this.openFolder} />
+          <FolderView folders={r} openFolder={this.openFolder} source='inner' />
           <FileView files={files} />
         </div>
+      )
+    }
+
+    if (this.state.others) {
+      const { path } = this.props
+      const p = path.currentPath.path
+      return (
+        <Redirect to={{ pathname: '/folder' + p }}  />
       )
     }
 
