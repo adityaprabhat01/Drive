@@ -16,7 +16,8 @@ class Dashboard extends Component {
     files: false,
     folders: false,
     open: false,
-    home: false
+    home: false,
+    up: false
   }
 
   componentDidMount() {
@@ -31,10 +32,13 @@ class Dashboard extends Component {
         this.setState({ open: true })
       }
     }
+    if (prevProps.upload !== this.props.upload) {
+      this.setState({ up: true })
+    }
   }
 
   loadDashboard = () => {
-    const { files, folders, atHome } = this.props
+    const { files, folders, homePwd } = this.props
     this.setState({ home: true })
 
     if (files) {
@@ -58,7 +62,7 @@ class Dashboard extends Component {
       this.setState({ folders: true })
     }
 
-    //homePwd()
+    homePwd()
   }
 
   openFolder = (e, id) => {
@@ -74,9 +78,9 @@ class Dashboard extends Component {
 
   render() {
 
-    const { files, path } = this.props
+    const { files, path, upload } = this.props
     const { f1 } = this.state
-
+    
     if (this.state.open) {
       const p = path.currentPath.path
       return (
@@ -119,7 +123,8 @@ const mapStateToProps = (state) => {
     files: state.firestore.firestore.files,
     folders: state.firestore.firestore.folders,
     pwd: state.pwd,
-    path: state.currentPath
+    path: state.currentPath,
+    upload: state.upload
   }
 }
 

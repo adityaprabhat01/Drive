@@ -33,7 +33,11 @@ export const recursiveTraversal = (id) => {
 
 export const homePwd = () => {
   return (dispatch, getState) => {
-    f = null
+    const id = getState().firestore.firestore.name
+    f = {
+      name: 'home',
+      id: id
+    }
     r = null
     dispatch(pwd_obj({ f, r }))
   }

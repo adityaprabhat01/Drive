@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
+import SideBar from '../SideBar/SideBar'
 import FolderView from './FolderView'
 import FileView from '../file/FileView'
 import Breadcrumb from '../infobar/Breadcrumb'
@@ -12,7 +13,8 @@ class NonEmptyFolder extends Component {
 
   state = {
     open: false,
-    others: false
+    others: false,
+    up: false
   }
 
   componentDidMount() {
@@ -22,6 +24,9 @@ class NonEmptyFolder extends Component {
   componentDidUpdate(prevProps) {
     if(prevProps.path !== this.props.path) {
       this.setState({ open: true })
+    }
+    if (prevProps.upload !== this.props.upload) {
+      this.setState({ up: true })
     }
   }
 
@@ -47,6 +52,7 @@ class NonEmptyFolder extends Component {
       const [f,r, files] = this.loadFolder()
       return (
         <div>
+          <SideBar source={'other'} />
           <Breadcrumb openFolder={this.openFolder} />  
           <FolderView folders={r} openFolder={this.openFolder} source='inner' />
           <FileView files={files} />
@@ -79,7 +85,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     pwd: state.pwd,
-    path: state.currentPath
+    path: state.currentPath,
+    upload: state.upload
   }
 }
 

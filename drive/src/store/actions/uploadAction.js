@@ -1,6 +1,19 @@
-import firebase from 'firebase/app'
-
 import { storage, db } from '../../config/firebase'
+
+var f = null
+var r = null
+
+function recursion(obj, id, fileName, url) {
+  for (let key in obj) {
+    if (key == 'id' && obj[key] == id) {
+      obj.files[fileName] = url
+    }
+    if(typeof(obj[key]) === 'object') {
+      recursion(obj[key], id, fileName, url)
+    }
+  }
+  return obj
+}
 
 function uploadRequest() {
   return {
@@ -8,9 +21,10 @@ function uploadRequest() {
   }
 }
 
-function uploadSuccess() {
+function uploadSuccess(data) {
   return {
-    type: 'UPLOAD_SUCCESS'
+    type: 'UPLOAD_SUCCESS',
+    data
   }
 }
 
@@ -20,15 +34,24 @@ function uploadFailure() {
   }
 }
 
-// pass folder/file address wrt root from SideBar component
-export const uploadFile = (f = {}, uid, firestoreFiles) => {
+export const uploadFile = (f = {}, source) => {
   return (dispatch, getState) => {
-    var state = getState()
-    const { firestore } = state
+    const { firestore, pwd, currentPath } = getState()
+
+    const id = pwd.pwd.f.id
+    const p = currentPath.currentPath.path
     let file = f.files[0]
-    let storageFolder = uid
     let fileName = file.name
-    let storageRef = storage.ref('/' + storageFolder + '/' + fileName)
+    let homeId = firestore.firestore.name
+    let c = null
+    let storageRef = null
+
+    if (source == 'home') {
+      storageRef = storage.ref('/' + homeId + '/'  + fileName)
+    }
+    else {
+      storageRef = storage.ref('/' + homeId  + p + '/' + fileName)
+    }
     
     dispatch(uploadRequest())
 
@@ -36,21 +59,24 @@ export const uploadFile = (f = {}, uid, firestoreFiles) => {
       .then(() => {
         storageRef.getDownloadURL()
           .then(url => {
-            // add user's doc
-            // can't directly update the map, get then create new
+            if (source == 'home') {
+              c = recursion(firestore, homeId, fileName, url)
+            }
+            else {
+              c = recursion(firestore, id, fileName, url)
+            }
             firestore.firestore.files[fileName] = url
-            db.collection('users').doc(uid).set({
-              // files: firebase.firestore.FieldValue.arrayUnion(url)
-              // files: firebase.firestore.FieldValue.arrayUnion(url)
-              ...firestore.firestore,
-              files: firestore.firestore.files
+            db.collection('users').doc(homeId).set({
               
+              ...firestore.firestore,
+              folders: c.firestore.folders,
             })
-              .then((doc) => { console.log(doc.data()) })
+              .then(() => { 
+                dispatch(uploadSuccess({ fileName, url }))
+              })
               .catch((e) => { console.log(e) });
           })
-          .catch(e => { })
-        dispatch(uploadSuccess())
+          .catch(e => {console.log('error')})
       })
       .catch(e => dispatch(uploadFailure()))
   }

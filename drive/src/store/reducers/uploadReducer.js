@@ -17,7 +17,15 @@ const uploadReducer = (state = initState, action) => {
 
     case 'UPLOAD_SUCCESS':
       console.log('upload success')
-      return state
+      const x = action.data.fileName
+      const y = action.data.url
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [x]: y
+        }
+      }
       break
 
     default:

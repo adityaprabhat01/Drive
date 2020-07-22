@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { firestore } from '../../store/actions/firestoreAction'
 import { uploadFile } from '../../store/actions/uploadAction'
 import { createFolder } from '../../store/actions/createFolderAction'
 
 class SideBar extends Component {
   render() {
 
-    const { uploadFile, createFolder ,firestore } = this.props
-    const { uid, files, folders } = firestore
+    const { uploadFile, createFolder ,firestore, source } = this.props
+    const { uid } = firestore
     
     const handleUploadFile = (e) => {
       e.preventDefault()
       const f = document.getElementById('upload-file')
-      uploadFile(f, uid, files)
+      uploadFile(f, source)
     }
 
     const handleCreateFolder = (e) => {
@@ -49,7 +48,7 @@ class SideBar extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    uploadFile: (file, uid, files) => dispatch(uploadFile(file, uid, files)),
+    uploadFile: (file, source) => dispatch(uploadFile(file, source)),
     createFolder: (f, uid) => dispatch(createFolder(f, uid))
   }
 }

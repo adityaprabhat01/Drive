@@ -31,7 +31,7 @@ class Drive extends Component {
         {user ? (<span>{user.username}</span>) : null}
         <Navbar />
         <div className="d-flex flex-row">
-          {this.state.isUserLoaded ? (<SideBar />) : null}
+          {this.state.isUserLoaded ? (<SideBar source={'home'} />) : null}
           {this.state.isUserLoaded ? (<Dashboad />) : null}
         </div>
       </div>
