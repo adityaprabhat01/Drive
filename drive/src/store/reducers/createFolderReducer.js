@@ -10,8 +10,15 @@ const createFolderReducer = (state = initState, action) => {
       break
 
     case 'FOLDER_CREATED':
-      console.log('data received')
-      return state
+      console.log('folder created')
+      const x = action.data.folderName
+      return {
+        ...state,
+        folderName: {
+          ...state.folderName,
+          [x]: [x]
+        }
+      }
       break
 
     default:

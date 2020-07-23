@@ -61,11 +61,12 @@ export const uploadFile = (f = {}, source) => {
           .then(url => {
             if (source == 'home') {
               c = recursion(firestore, homeId, fileName, url)
+              firestore.firestore.files[fileName] = url
             }
             else {
               c = recursion(firestore, id, fileName, url)
             }
-            firestore.firestore.files[fileName] = url
+            
             db.collection('users').doc(homeId).set({
               
               ...firestore.firestore,

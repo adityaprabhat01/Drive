@@ -2,9 +2,39 @@ const initState = {}
 
 const removeReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'REMOVE':
-      console.log('remove file', action)
+    case 'DELETE_REQUEST':
+      console.log('delete request')
       break
+
+    case 'DELETE_SUCCESS':
+      console.log('delete success')
+      const x = action.data.fileName
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [x]: [x]
+        }
+      }
+      break
+
+    case 'DELETE_SUCCESS_FOLDER':
+      console.log('delete success')
+      const y = action.data.folderName
+      return {
+        ...state,
+        folder: {
+          ...state.folder,
+          [y]: [y]
+        }
+      }
+      break
+
+    case 'DELETE_FAILURE':
+      console.log('delete failure')
+      return state
+      break
+
     default:
       return state
   }

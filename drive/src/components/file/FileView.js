@@ -3,11 +3,11 @@ import React from 'react'
 import FileList from './FileList'
 
 const FileView = (props) => {
-  var { files } = props
+  var { files, download, remove } = props
   
   return (
     <div>
-      <FileList files={files} />
+      <FileList files={files} download={download} remove={remove} />
     </div>
   )
 }

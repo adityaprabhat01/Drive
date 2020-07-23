@@ -6,15 +6,19 @@ import SideBar from '../SideBar/SideBar'
 import FolderView from './FolderView'
 import FileView from '../file/FileView'
 import Breadcrumb from '../infobar/Breadcrumb'
+import { removeFile, removeFolder } from '../../store/actions/removeAction'
 import { recursiveTraversal } from '../../store/actions/recursiveTraversalAction'
 import { currentPath } from '../../store/actions/currentPathAction'
+import { downloadFile } from '../../store/actions/downloadAction'
 
 class NonEmptyFolder extends Component {
 
   state = {
     open: false,
     others: false,
-    up: false
+    up: false,
+    new: false,
+    rem: false
   }
 
   componentDidMount() {
@@ -27,6 +31,12 @@ class NonEmptyFolder extends Component {
     }
     if (prevProps.upload !== this.props.upload) {
       this.setState({ up: true })
+    }
+    if (prevProps.remove !== this.props.remove) {
+      this.setState({ rem: true })
+    }
+    if (prevProps.createFolder !== this.props.createFolder) {
+      this.setState({ new: true })
     }
   }
 
@@ -45,6 +55,22 @@ class NonEmptyFolder extends Component {
     currentPath(id, back)
     recursiveTraversal(id)
   }
+
+  download = (e) => {
+    const url = e.target.id
+    const name = e.target.parentElement.id
+    this.props.downloadFile(url, name)
+  }
+
+  remove = (e) => {
+    const name = e.target.parentElement.id
+    this.props.removeFile(name, 'inner')
+  }
+
+  removeF = (e) => {
+    const name = e.target.parentElement.id
+    this.props.removeFolder(name, 'inner')
+  }
   
   render() {
 
@@ -52,10 +78,10 @@ class NonEmptyFolder extends Component {
       const [f,r, files] = this.loadFolder()
       return (
         <div>
-          <SideBar source={'other'} />
+          <SideBar source={'inner'} />
           <Breadcrumb openFolder={this.openFolder} />  
-          <FolderView folders={r} openFolder={this.openFolder} source='inner' />
-          <FileView files={files} />
+          <FolderView folders={r} openFolder={this.openFolder} remove={this.removeF} source='inner' />
+          <FileView files={files} download={this.download} remove={this.remove} />
         </div>
       )
     }
@@ -77,8 +103,11 @@ class NonEmptyFolder extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    downloadFile: (url, name) => dispatch(downloadFile(url, name)),
     recursiveTraversal: id => dispatch(recursiveTraversal(id)),
-    currentPath: (id, back) => dispatch(currentPath(id, back))
+    currentPath: (id, back) => dispatch(currentPath(id, back)),
+    removeFile: (fileName, source) => dispatch(removeFile(fileName, source)),
+    removeFolder: (folderName, source) => dispatch(removeFolder(folderName, source))
   }
 }
 
@@ -86,7 +115,9 @@ const mapStateToProps = (state) => {
   return {
     pwd: state.pwd,
     path: state.currentPath,
-    upload: state.upload
+    upload: state.upload,
+    remove: state.remove,
+    createFolder: state.createFolder
   }
 }
 
