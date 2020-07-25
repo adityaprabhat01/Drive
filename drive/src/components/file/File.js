@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 class File extends Component {
   state = {
@@ -19,10 +20,20 @@ class File extends Component {
           <p className="text-center">{this.state.fileName}</p>
         </a>
         <button type="button" className="btn btn-outline-primary" id={this.state.url} onClick={e => this.props.download(e)}>Download</button>
-        <button type="button" className="btn btn-outline-primary mt-2" onClick={e => this.props.remove(e)}>Remove</button>
+        {this.props.rem.request ? (
+          <button type="button" className="btn btn-outline-primary">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+        ): <button type="button" className="btn btn-outline-primary mt-2" onClick={e => this.props.remove(e)}>Remove</button>}
       </div>
     )
   }
 }
 
-export default File
+const mapStateToProps = (state) => {
+  return {
+    rem: state.remove
+  }
+}
+
+export default connect(mapStateToProps)(File)

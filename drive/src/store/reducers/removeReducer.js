@@ -4,6 +4,10 @@ const removeReducer = (state = initState, action) => {
   switch (action.type) {
     case 'DELETE_REQUEST':
       console.log('delete request')
+      return {
+        ...state,
+        request: true
+      }
       break
 
     case 'DELETE_SUCCESS':
@@ -13,8 +17,9 @@ const removeReducer = (state = initState, action) => {
         ...state,
         files: {
           ...state.files,
-          [x]: [x]
-        }
+          [x]: [x],
+        },
+        request: false
       }
       break
 
@@ -25,8 +30,9 @@ const removeReducer = (state = initState, action) => {
         ...state,
         folder: {
           ...state.folder,
-          [y]: [y]
-        }
+          [y]: [y],
+        },
+        request: false
       }
       break
 

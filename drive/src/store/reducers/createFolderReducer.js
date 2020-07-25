@@ -1,12 +1,16 @@
 const initState = {}
 
 const createFolderReducer = (state = initState, action) => {
-  
+
   switch (action.type) {
 
     case 'CREATE_FOLDER_REQUEST':
       console.log('request data')
-      return state
+      // change the state when creation starts
+      return {
+        ...state,
+        request: true
+      }
       break
 
     case 'FOLDER_CREATED':
@@ -16,8 +20,9 @@ const createFolderReducer = (state = initState, action) => {
         ...state,
         folderName: {
           ...state.folderName,
-          [x]: [x]
-        }
+          [x]: [x],
+        },
+        request: false
       }
       break
 

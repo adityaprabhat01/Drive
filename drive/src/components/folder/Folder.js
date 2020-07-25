@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import EmptyFolder from '../folder/EmptyFolder'
 
@@ -12,7 +13,7 @@ class Folder extends Component {
     e.preventDefault()
     this.props.openFolder(e, this.state.f.id, false)
   }
-  
+
   render() {
     // if (this.state.openFolder) {
     //   if (this.state.empty) {
@@ -24,7 +25,7 @@ class Folder extends Component {
 
     //   }
     // }
-    
+
     return (
       <div id={this.state.f.name} className="d-flex flex-column p-5">
         <svg onClick={this.handleOpenFolder} width="7em" height="7em" viewBox="0 0 16 16" className="bi bi-folder" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ cursor: "pointer" }}>
@@ -32,11 +33,23 @@ class Folder extends Component {
           <path fillRule="evenodd" d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z" />
         </svg>
         <span className="text-center">{this.state.f.name}</span>
-        <button type="button" className="btn btn-outline-primary" onClick={e => this.props.remove(e)}>Remove</button>
+        {this.props.rem.request ? (
+          <button type="button" className="btn btn-outline-primary">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+        ): <button type="button" className="btn btn-outline-primary" onClick={e => this.props.remove(e)}>Remove</button>}
+        
       </div>
 
     )
   }
 }
 
-export default Folder
+const mapStateToProps = (state) => {
+  
+  return {
+    rem: state.remove
+  }
+}
+
+export default connect(mapStateToProps)(Folder)

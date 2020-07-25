@@ -45,8 +45,7 @@ class Dashboard extends Component {
 
   loadDashboard = (isNew) => {
     if (isNew) {
-      this.setState({ f1: [] })
-      this.setState({ new: false })
+      this.setState({ f1: [], new: false })
     }
 
     const { files, folders, homePwd } = this.props

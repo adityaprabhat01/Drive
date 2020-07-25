@@ -6,7 +6,7 @@ import { createFolder } from '../../store/actions/createFolderAction'
 
 class SideBar extends Component {
   render() {
-    
+
     const { uploadFile, createFolder, firestore, source } = this.props
     const { uid } = firestore
 
@@ -57,7 +57,15 @@ class SideBar extends Component {
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onClick={handleCreateFolder}>Create</button>
+                {
+                  this.props.createFolder.request ? (
+                    <button type="button" className="btn btn-primary">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                  ) : (
+                      <button type="button" class="btn btn-primary" onClick={handleCreateFolder}>Create</button>
+                    )
+                }
               </div>
             </div>
           </div>
@@ -77,8 +85,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.createFolder.request)
   return {
-    firestore: state.firestore.firestore
+    firestore: state.firestore.firestore,
+    createFolder: state.createFolder
   }
 }
 
