@@ -11,7 +11,7 @@ class Breadcrumb extends Component {
   createLi = (n, b) => {
     var lis = []
     for (let i = 0; i < n; i++) {
-      lis[i] = React.createElement('li', { className: 'breadcrumb-item', id: b[i].id, onClick: this.handleClick }, b[i].name)
+      lis[i] = React.createElement('li', { className: 'breadcrumb-item', id: b[i].id, onClick: this.handleClick, style:{ cursor: "pointer" }  }, b[i].name)
     }
     return lis
   }
@@ -41,7 +41,7 @@ class Breadcrumb extends Component {
     return (
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item" onClick={this.goToHome}>Home</li>
+          <li className="breadcrumb-item" onClick={this.goToHome} style={{ cursor: "pointer" }}>Home</li>
           {lis}
         </ol>
       </nav>

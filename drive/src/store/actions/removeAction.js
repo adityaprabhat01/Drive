@@ -130,7 +130,6 @@ export const removeFolder = (folderName, source) => {
     }
     else {
       c = recursionFolder(firestore, id, folderName)
-      console.log(c)
       db.collection('users').doc(homeId).set({
         ...firestore.firestore,
         folders: c.firestore.folders,

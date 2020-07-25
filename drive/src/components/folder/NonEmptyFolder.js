@@ -6,6 +6,7 @@ import SideBar from '../SideBar/SideBar'
 import FolderView from './FolderView'
 import FileView from '../file/FileView'
 import Breadcrumb from '../infobar/Breadcrumb'
+import Navbar from '../Navbar/Navbar'
 import { removeFile, removeFolder } from '../../store/actions/removeAction'
 import { recursiveTraversal } from '../../store/actions/recursiveTraversalAction'
 import { currentPath } from '../../store/actions/currentPathAction'
@@ -26,7 +27,7 @@ class NonEmptyFolder extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.path !== this.props.path) {
+    if (prevProps.path !== this.props.path) {
       this.setState({ open: true })
     }
     if (prevProps.upload !== this.props.upload) {
@@ -71,17 +72,25 @@ class NonEmptyFolder extends Component {
     const name = e.target.parentElement.id
     this.props.removeFolder(name, 'inner')
   }
-  
+
   render() {
 
+    let { user } = this.props
+    let u = user ? user.username : null
+
     if (this.state.open) {
-      const [f,r, files] = this.loadFolder()
+      const [f, r, files] = this.loadFolder()
       return (
-        <div>
-          <SideBar source={'inner'} />
-          <Breadcrumb openFolder={this.openFolder} />  
-          <FolderView folders={r} openFolder={this.openFolder} remove={this.removeF} source='inner' />
-          <FileView files={files} download={this.download} remove={this.remove} />
+        <div className="d-flex flex-column">
+          <Navbar name={u} />
+          <Breadcrumb openFolder={this.openFolder} />
+          <div className="d-flex flex-row">
+            <SideBar source={'inner'} />
+            <div className="pl-5">
+              <FolderView folders={r} openFolder={this.openFolder} remove={this.removeF} source='inner' />
+              <FileView files={files} download={this.download} remove={this.remove} />
+            </div>
+          </div>
         </div>
       )
     }
@@ -90,7 +99,7 @@ class NonEmptyFolder extends Component {
       const { path } = this.props
       const p = path.currentPath.path
       return (
-        <Redirect to={{ pathname: '/folder' + p }}  />
+        <Redirect to={{ pathname: '/folder' + p }} />
       )
     }
 
@@ -117,7 +126,8 @@ const mapStateToProps = (state) => {
     path: state.currentPath,
     upload: state.upload,
     remove: state.remove,
-    createFolder: state.createFolder
+    createFolder: state.createFolder,
+    user: state.firestore.firestore,
   }
 }
 

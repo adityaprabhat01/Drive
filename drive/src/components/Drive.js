@@ -25,11 +25,10 @@ class Drive extends Component {
   render() {
 
     let { user } = this.props
-
+    let u = user ? user.username : null
     return (
       <div className="container-fluid p-1 d-flex flex-column">
-        {user ? (<span>{user.username}</span>) : null}
-        <Navbar />
+        <Navbar name={u} />
         <div className="d-flex flex-row">
           {this.state.isUserLoaded ? (<SideBar source={'home'} />) : null}
           {this.state.isUserLoaded ? (<Dashboad />) : null}

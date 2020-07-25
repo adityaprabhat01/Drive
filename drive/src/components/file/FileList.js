@@ -3,11 +3,11 @@ import React from 'react'
 import File from './File'
 
 const FileList = (props) => {
-  const { files, download, remove } = props
-  const renderList = Object.keys(files).map(file => {
+  const { a, download, remove } = props
+  const renderList = Object.keys(a).map(file => {
     return (
       
-        <File url={files[file]} fileName={file} download={download} remove={remove} />
+        <File url={a[file]} fileName={file} download={download} remove={remove} />
       
     )
   })

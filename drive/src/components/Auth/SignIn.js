@@ -20,7 +20,6 @@ class SignIn extends Component {
     e.preventDefault()
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(data => {
-
         const uid = data.user.uid
         this.setState({
           isVerified: true,

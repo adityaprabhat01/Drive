@@ -4,7 +4,7 @@ class Searchbar extends Component {
   render() {
     return (
       <div>
-        SearchBar
+        
       </div>
     )
   }

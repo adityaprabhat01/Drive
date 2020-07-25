@@ -48,7 +48,7 @@ class Dashboard extends Component {
       this.setState({ f1: [] })
       this.setState({ new: false })
     }
-    
+
     const { files, folders, homePwd } = this.props
     this.setState({ home: true })
 
@@ -78,7 +78,7 @@ class Dashboard extends Component {
     homePwd()
   }
 
-  
+
 
   openFolder = (e, id) => {
     this.setState({ open: false, home: false })
@@ -108,27 +108,27 @@ class Dashboard extends Component {
   }
 
   render() {
-    
+
     const { files, path } = this.props
     const { f1 } = this.state
-    
+
     if (this.state.open) {
       const p = path.currentPath.path
       return (
-        <Redirect to={{ pathname: '/folder' + p }}  />
+        <Redirect to={{ pathname: '/folder' + p }} />
       )
     }
 
     if (this.state.home) {
       return (
-        <div>
-          {this.state.files ? (<FileView files={files} download={this.download} remove={this.remove} />) : null}
+        <div className="pl-5">
           {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} remove={this.removeF} source='home' />) : null}
+          {this.state.files ? (<FileView files={files} download={this.download} remove={this.remove} />) : null}
         </div>
       )
     }
 
-    return(
+    return (
       <div>Loading Dashboard</div>
     )
   }

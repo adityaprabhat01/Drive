@@ -1,18 +1,21 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import Folder from './Folder'
 
 const FolderList = (props) => {
   var { folders, openFolder, source, remove } = props
+
   const renderList = folders.map(folder => {
     return (
-      <Folder folder={folder} openFolder={openFolder} source={source} remove={remove} />
+      <div>
+        <Folder folder={folder} openFolder={openFolder} source={source} remove={remove} />
+      </div>
     )
   })
+
   return (
-    <div>
-      { renderList }
+    <div className="d-flex flex-row">
+      {renderList}
     </div>
   )
 }
