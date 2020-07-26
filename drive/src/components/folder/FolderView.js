@@ -21,6 +21,7 @@ const FolderView = (props) => {
   }
   
   const e = renderListArray()
+  
   return (
     <div className="d-flex flex-column">
       {e}

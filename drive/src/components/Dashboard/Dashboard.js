@@ -92,12 +92,14 @@ class Dashboard extends Component {
 
   download = (e) => {
     const url = e.target.id
+    console.log(e.target)
     const name = e.target.parentElement.id
     this.props.downloadFile(url, name)
   }
 
   remove = (e) => {
     const name = e.target.parentElement.id
+    console.log(name)
     this.props.removeFile(name, 'home')
   }
 

@@ -72,7 +72,6 @@ export const removeFile = (fileName, source) => {
     }
 
     dispatch(deleteRequest())
-
     storageRef.delete()
       .then(() => {
         if (source == 'home') {

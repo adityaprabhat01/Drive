@@ -4,7 +4,6 @@ import Folder from './Folder'
 
 const FolderList = (props) => {
   var { folders, openFolder, source, remove } = props
-
   const renderList = folders.map(folder => {
     return (
       <div>
@@ -12,7 +11,7 @@ const FolderList = (props) => {
       </div>
     )
   })
-
+  
   return (
     <div className="d-flex flex-row">
       {renderList}

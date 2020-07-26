@@ -23,6 +23,7 @@ class NonEmptyFolder extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount')
     this.setState({ open: true })
   }
 
@@ -59,6 +60,7 @@ class NonEmptyFolder extends Component {
 
   download = (e) => {
     const url = e.target.id
+    
     const name = e.target.parentElement.id
     this.props.downloadFile(url, name)
   }
