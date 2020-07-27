@@ -5,11 +5,13 @@ import Drive from './components/Drive'
 import SignIn from './components/Auth/SignIn'
 import SignUp from './components/Auth/SignUp'
 import NonEmptyFolder from './components/folder/NonEmptyFolder'
+import Landing from './components/Landing'
 
 const App = () => {
   return (
       <BrowserRouter>
         <Switch>
+          <Route exact path="/" component={Landing} />
           <Route path='/signin' component={SignIn} />
           <Route path='/signup' component={SignUp} />
           <Route path='/drive' component={Drive} />
