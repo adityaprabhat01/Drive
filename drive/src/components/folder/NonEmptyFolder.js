@@ -7,6 +7,7 @@ import FolderView from './FolderView'
 import FileView from '../file/FileView'
 import Breadcrumb from '../infobar/Breadcrumb'
 import Navbar from '../Navbar/Navbar'
+import Uploader from '../uploader/Uploader'
 import { removeFile, removeFolder } from '../../store/actions/removeAction'
 import { recursiveTraversal } from '../../store/actions/recursiveTraversalAction'
 import { currentPath } from '../../store/actions/currentPathAction'
@@ -19,7 +20,8 @@ class NonEmptyFolder extends Component {
     others: false,
     up: false,
     new: false,
-    rem: false
+    rem: false,
+    status: false
   }
 
   componentDidMount() {
@@ -39,6 +41,16 @@ class NonEmptyFolder extends Component {
     }
     if (prevProps.createFolder !== this.props.createFolder) {
       this.setState({ new: true })
+    }
+    if ((prevProps.upload.status == true)) {
+      console.log('true')
+      if (!this.state.status) {
+        this.setState({ status: true })
+      }
+    }
+    if ((prevProps.upload.status == true && this.props.upload.status == false)) {
+      console.log('false')
+      this.setState({ status: false })
     }
   }
 
@@ -77,7 +89,7 @@ class NonEmptyFolder extends Component {
 
   render() {
 
-    let { user } = this.props
+    let { user, upload } = this.props
     let u = user ? user.username : null
 
     if (this.state.open) {
@@ -91,6 +103,7 @@ class NonEmptyFolder extends Component {
             <div className="pl-5">
               <FolderView folders={r} openFolder={this.openFolder} remove={this.removeF} source='inner' />
               <FileView files={files} download={this.download} remove={this.remove} />
+              {this.state.status ? (<Uploader prog={upload.prog} />) : null}
             </div>
           </div>
         </div>

@@ -13,7 +13,6 @@ class SideBar extends Component {
     e.preventDefault()
     const { createFolder, source } = this.props
     const name = document.getElementById("folderName").value
-
     document.getElementById("folderName").value = ""
     if (name != '') {
       console.log(name)

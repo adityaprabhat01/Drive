@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import { firebase } from '../../config/firebase'
+import { auth } from '../../store/actions/authAction'
 
 class SignIn extends Component {
 
@@ -21,6 +23,14 @@ class SignIn extends Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(data => {
         const uid = data.user.uid
+
+        const d = {
+          email: data.user.email,
+          uid: data.user.uid
+        }
+        
+        this.props.authenticate(d)
+
         this.setState({
           isVerified: true,
           uid: uid
@@ -102,4 +112,10 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authenticate: data => dispatch(auth(data))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignIn)

@@ -23,10 +23,18 @@ const uploadReducer = (state = initState, action) => {
         ...state,
         files: {
           ...state.files,
-          [x]: y
-        }
+          [x]: y,
+        },
+        status: false
       }
       break
+
+    case 'UPLOAD_PROGRESS':
+      return {
+        ...state,
+        status: true,
+        prog: action.data
+      }
 
     default:
       return state

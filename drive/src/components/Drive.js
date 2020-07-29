@@ -9,6 +9,7 @@ import { firestore } from '../store/actions/firestoreAction'
 class Drive extends Component {
 
   state = {
+    // this.props.auth.uid Use with local storage
     uid: this.props.location.state.uid,
     isUserLoaded: false
   }
@@ -47,7 +48,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     user: state.firestore.firestore,
-    path: state.currentPath
+    path: state.currentPath,
+    auth: state.auth
   }
 }
 

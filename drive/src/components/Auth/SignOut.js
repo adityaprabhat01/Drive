@@ -10,10 +10,8 @@ class SignOut extends Component {
   }
 
   handleClick = () => {
-    console.log('hello')
     firebase.auth().signOut().then(data => {
       this.setState({ signedOut: true })
-      console.log('sign out success', firebase.auth().isSignInWithEmailLink(window.location.href))
     }).catch(function(error) {
       console.log('error sign out')
     });
@@ -36,5 +34,7 @@ class SignOut extends Component {
     )
   }
 }
+
+
 
 export default SignOut

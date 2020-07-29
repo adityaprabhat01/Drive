@@ -1,4 +1,4 @@
-import { storage, db } from '../../config/firebase'
+import { storage, db, firebase } from '../../config/firebase'
 
 var f = null
 var r = null
@@ -8,7 +8,7 @@ function recursion(obj, id, fileName, url) {
     if (key == 'id' && obj[key] == id) {
       obj.files[fileName] = url
     }
-    if(typeof(obj[key]) === 'object') {
+    if (typeof (obj[key]) === 'object') {
       recursion(obj[key], id, fileName, url)
     }
   }
@@ -34,6 +34,13 @@ function uploadFailure() {
   }
 }
 
+function uploadStatus(data) {
+  return {
+    type: 'UPLOAD_PROGRESS',
+    data
+  }
+}
+
 export const uploadFile = (f = {}, source) => {
   return (dispatch, getState) => {
     const { firestore, pwd, currentPath } = getState()
@@ -41,22 +48,23 @@ export const uploadFile = (f = {}, source) => {
     const id = pwd.pwd.f.id
     const p = currentPath.currentPath.path
     let file = f.files[0]
-    let fileName = file.name
-    let homeId = firestore.firestore.name
-    let c = null
-    let storageRef = null
+    if (file) {
+      let fileName = file.name
+      let homeId = firestore.firestore.name
+      let c = null
+      let storageRef = null
 
-    if (source == 'home') {
-      storageRef = storage.ref('/' + homeId + '/'  + fileName)
-    }
-    else {
-      storageRef = storage.ref('/' + homeId  + p + '/' + fileName)
-    }
-    
-    dispatch(uploadRequest())
+      if (source == 'home') {
+        storageRef = storage.ref('/' + homeId + '/' + fileName)
+      }
+      else {
+        storageRef = storage.ref('/' + homeId + p + '/' + fileName)
+      }
 
-    storageRef.put(file)
-      .then(() => {
+      dispatch(uploadRequest())
+
+      var uploadTask = storageRef.put(file)
+      uploadTask.then(() => {
         storageRef.getDownloadURL()
           .then(url => {
             if (source == 'home') {
@@ -66,19 +74,41 @@ export const uploadFile = (f = {}, source) => {
             else {
               c = recursion(firestore, id, fileName, url)
             }
-            
+
             db.collection('users').doc(homeId).set({
-              
+
               ...firestore.firestore,
               folders: c.firestore.folders,
             })
-              .then(() => { 
-                dispatch(uploadSuccess({ fileName, url }))
+              .then(() => {
+                dispatch(uploadSuccess({ fileName, url, status: false }))
               })
               .catch((e) => { console.log(e) });
           })
-          .catch(e => {console.log('error')})
+          .catch(e => { console.log('error') })
       })
-      .catch(e => dispatch(uploadFailure()))
+        .catch(e => dispatch(uploadFailure()))
+
+
+      uploadTask.on('state_changed', function (snapshot) {
+        var progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+        dispatch(uploadStatus({ progress }))
+
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED:
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING:
+            console.log('Upload is running');
+            break;
+        }
+      }, function (error) {
+
+      }, function () {
+        console.log('Upload Success')
+      });
+    }
+
   }
 }

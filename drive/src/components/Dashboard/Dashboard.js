@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { firebase } from '../../config/firebase'
 
 import { recursiveTraversal, homePwd } from '../../store/actions/recursiveTraversalAction'
 import { currentPath, atHome } from '../../store/actions/currentPathAction'
@@ -8,6 +9,7 @@ import { downloadFile } from '../../store/actions/downloadAction'
 import { removeFile, removeFolder } from '../../store/actions/removeAction'
 import FolderView from '../folder/FolderView'
 import FileView from '../file/FileView'
+import Uploader from '../uploader/Uploader'
 
 class Dashboard extends Component {
 
@@ -18,6 +20,7 @@ class Dashboard extends Component {
     open: false,
     home: false,
     up: false,
+    status: false
   }
 
   componentDidMount() {
@@ -32,7 +35,7 @@ class Dashboard extends Component {
         this.setState({ open: true })
       }
     }
-    if (prevProps.upload !== this.props.upload) {
+    if (prevProps.upload.files !== this.props.upload.files) {
       this.setState({ up: true })
     }
     if (prevProps.remove !== this.props.remove) {
@@ -41,7 +44,15 @@ class Dashboard extends Component {
     if (prevProps.createFolder !== this.props.createFolder) {
       this.loadDashboard(true)
     }
-  }
+    if ((prevProps.upload.status == true)) {
+      if (!this.state.status) {
+        this.setState({ status: true })
+      }
+    }
+    if ((prevProps.upload.status == true && this.props.upload.status == false)) {
+      this.setState({ status: false })
+    }
+  } 
 
   loadDashboard = (isNew) => {
     if (isNew) {
@@ -109,9 +120,12 @@ class Dashboard extends Component {
   }
 
   render() {
-
-    const { files, path } = this.props
-    const { f1 } = this.state
+    //console.log(firebase.auth().currentUser.uid, firebase.auth().currentUser.email)
+    
+    const { files, path, upload } = this.props
+    let { f1 } = this.state
+    f1 = f1.slice()
+    
 
     if (this.state.open) {
       const p = path.currentPath.path
@@ -125,6 +139,7 @@ class Dashboard extends Component {
         <div className="pl-5">
           {this.state.folders ? (<FolderView folders={f1} openFolder={this.openFolder} remove={this.removeF} source='home' />) : null}
           {this.state.files ? (<FileView files={files} download={this.download} remove={this.remove} />) : null}
+          {this.state.status ? (<Uploader prog={upload.prog} />) : null}
         </div>
       )
     }

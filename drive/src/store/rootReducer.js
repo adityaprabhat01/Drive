@@ -7,6 +7,7 @@ import firestoreReducer from './reducers/firestoreReducer'
 import createFolderReducer from './reducers/createFolderReducer'
 import recursiveTraversalReducer from './reducers/recursiveTraversalReducer'
 import currentPathReducer from './reducers/currentPathReducer'
+import authReducer from './reducers/authReducer'
 
 const rootReducer = combineReducers({
   remove: removeReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   firestore: firestoreReducer,
   createFolder: createFolderReducer,
   pwd: recursiveTraversalReducer,
-  currentPath: currentPathReducer
+  currentPath: currentPathReducer,
+  auth: authReducer
 })
 
 export default rootReducer
