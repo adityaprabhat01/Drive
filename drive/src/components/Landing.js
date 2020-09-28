@@ -31,9 +31,6 @@ class Landing extends React.Component {
                         <div class="mx-auto" style={{ maxWidth: "400px" }}>
                             <span class="mx-auto" style={{ fontFamily: "'Cabin Condensed', sans-serif", fontSize: "2rem" }}>Welcome to Drive</span>
                         </div>
-                        <div>
-                            Open a file in new window and do not press back button
-                        </div>
                         <div class="d-flex flex-row justify-content-around mt-5">
                             <div>
                                 <button type="button" className="btn btn-primary btn-lg button-1" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px", border: "none" }} onClick={(event) => {
