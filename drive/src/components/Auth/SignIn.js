@@ -65,7 +65,7 @@ class SignIn extends Component {
             <div className="form-group mt-3 form-font">
               <div className="bg-light rounded mt-3">
                 <div className="ml-1">
-                  <span className="font-weight-light">Username</span>
+                  <span className="font-weight-light">Email</span>
                 </div>
                 <div>
                   <input type="text" className="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ email: event.target.value })} />
