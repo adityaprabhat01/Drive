@@ -7,7 +7,10 @@ class Navbar extends Component {
     return (
       <div>
         <nav className="navbar navbar-light bg-light">
-          <a className="navbar-brand">{this.props.name}</a>
+        <a className="navbar-brand">{this.props.name}</a>
+          <span align="center" className="font-weight-bold">
+            To view a file, open in new tab
+          </span>
           <SignOut />
         </nav>
       </div>
