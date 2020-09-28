@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { firebase } from '../../config/firebase'
 
 import { recursiveTraversal, homePwd } from '../../store/actions/recursiveTraversalAction'
 import { currentPath, atHome } from '../../store/actions/currentPathAction'
@@ -10,6 +9,11 @@ import { removeFile, removeFolder } from '../../store/actions/removeAction'
 import FolderView from '../folder/FolderView'
 import FileView from '../file/FileView'
 import Uploader from '../uploader/Uploader'
+
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault()
+  e.returnValue = 'Please use NavBar to Navigate'
+})
 
 class Dashboard extends Component {
 
@@ -120,8 +124,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    //console.log(firebase.auth().currentUser.uid, firebase.auth().currentUser.email)
-    
     const { files, path, upload } = this.props
     let { f1 } = this.state
     f1 = f1.slice()
@@ -163,7 +165,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     id: state.firestore.firestore.id,
     files: state.firestore.firestore.files,

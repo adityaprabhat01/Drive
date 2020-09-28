@@ -14,28 +14,20 @@ class SignIn extends Component {
     uid: ''
   }
 
-  handleChange = event => {
-    console.log(event.target.value)
-  }
-
   handleSubmit = e => {
     e.preventDefault()
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(data => {
         const uid = data.user.uid
-
         const d = {
           email: data.user.email,
           uid: data.user.uid
         }
-        
         this.props.authenticate(d)
-
         this.setState({
           isVerified: true,
           uid: uid
         })
-
       })
       .catch(function (error) {
         var errorCode = error.code;
@@ -45,22 +37,12 @@ class SignIn extends Component {
         } else {
           alert(errorMessage);
         }
-        console.log(error);
       });
   }
 
   render() {
 
     if (this.state.isVerified) {
-
-      // firebase.auth().onAuthStateChanged(function (user) {
-      //   if (user) {
-      //     var uid = user.uid;
-      //   }
-      //   else {
-      //   }
-      // })
-
       return (
         <Redirect
           to={{
@@ -76,7 +58,6 @@ class SignIn extends Component {
     return (
       <div className="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
         <div className="container">
-
           <form className="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.handleSubmit}>
             <div className="pb-2">
               <span><h2>Log in to Drive</h2></span>
@@ -91,7 +72,6 @@ class SignIn extends Component {
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
-
               <div className="bg-light rounded mt-3">
                 <div className="ml-1">
                   <span className="font-weight-light">Password</span>
@@ -101,14 +81,12 @@ class SignIn extends Component {
                 </div>
                 <hr className="mt-0 border-0 boundary" />
               </div>
-
             </div>
             <button className="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
           </form>
         </div>
       </div>
     )
-
   }
 }
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import EmptyFolder from '../folder/EmptyFolder'
-
 class Folder extends Component {
   state = {
     f: this.props.folder,
@@ -16,17 +14,6 @@ class Folder extends Component {
 
   render() {
 
-    // if (this.state.openFolder) {
-    //   if (this.state.empty) {
-    //     return (
-    //       <EmptyFolder />
-    //     )
-    //   }
-    //   else {
-
-    //   }
-    // }
-
     return (
       <div id={this.props.folder.name} className="d-flex flex-column p-5">
         <svg onClick={this.handleOpenFolder} width="7em" height="7em" viewBox="0 0 16 16" className="bi bi-folder" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ cursor: "pointer" }}>
@@ -39,8 +26,6 @@ class Folder extends Component {
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           </button>
         ) : <button type="button" className="btn btn-outline-primary" onClick={e => this.props.remove(e)}>Remove</button>}
-
-        
       </div>
 
     )
@@ -48,7 +33,6 @@ class Folder extends Component {
 }
 
 const mapStateToProps = (state) => {
-
   return {
     rem: state.remove
   }

@@ -25,7 +25,6 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { createAccount } = this.props
-    // put spinner on button
     this.setState({ spinner: true })
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(data => {
@@ -54,17 +53,6 @@ class SignUp extends Component {
     if (this.state.isSignedUp) {
 
       const { uid } = this.state
-
-      // firebase.auth().onAuthStateChanged(function (user) {
-      //   if (user) {
-      //     var uid = user.uid;
-      //   }
-      //   else {
-      //   }
-      // })
-
-
-
       return (
         <Redirect
           to={{

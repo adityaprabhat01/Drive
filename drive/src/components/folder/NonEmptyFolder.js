@@ -25,7 +25,6 @@ class NonEmptyFolder extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount')
     this.setState({ open: true })
   }
 

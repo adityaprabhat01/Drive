@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import Searchbar from './Searchbar'
 import SignOut from '../Auth/SignOut'
 
 class Navbar extends Component {
@@ -9,7 +8,6 @@ class Navbar extends Component {
       <div>
         <nav className="navbar navbar-light bg-light">
           <a className="navbar-brand">{this.props.name}</a>
-          <Searchbar />
           <SignOut />
         </nav>
       </div>

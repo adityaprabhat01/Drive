@@ -15,7 +15,6 @@ class SideBar extends Component {
     const name = document.getElementById("folderName").value
     document.getElementById("folderName").value = ""
     if (name != '') {
-      console.log(name)
       createFolder(name, source)
       document.getElementById("modalCloseButton").click()
     }
@@ -57,7 +56,6 @@ class SideBar extends Component {
 
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <button type="button" className="btn  btn-outline-primary dropdown-item" onClick={handleUploadFile}>File Upload</button>
-            <button type="button" className="btn  btn-outline-primary dropdown-item">Folder Upload</button>
             <button type="button" className="btn btn-outline-primary dropdown-item" data-toggle="modal" data-target="#exampleModal">Create Folder</button>
           </div>
         </div>
