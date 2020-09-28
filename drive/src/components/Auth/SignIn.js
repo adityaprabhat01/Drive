@@ -11,7 +11,8 @@ class SignIn extends Component {
     email: '',
     password: '',
     isVerified: false,
-    uid: ''
+    uid: '',
+    signup: false
   }
 
   handleSubmit = e => {
@@ -55,6 +56,14 @@ class SignIn extends Component {
       )
     }
 
+    if(this.state.signup){
+      return (
+          <Redirect to={{
+              pathname: "/signup"
+          }} />
+      )
+    }
+
     return (
       <div className="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
         <div className="container">
@@ -84,6 +93,10 @@ class SignIn extends Component {
             </div>
             <button className="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
           </form>
+          <p className="mt-3">
+            Don't have an account?
+          </p>
+          <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }} onClick={event => this.setState({ signup: true })}>Sign Up</button>
         </div>
       </div>
     )

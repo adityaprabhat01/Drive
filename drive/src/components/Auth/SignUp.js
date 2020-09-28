@@ -13,7 +13,8 @@ class SignUp extends Component {
     password: '',
     uid: '',
     isSignedUp: false,
-    spinner: false
+    spinner: false,
+    login: false
   }
 
   handleChange = e => {
@@ -62,6 +63,14 @@ class SignUp extends Component {
             }
           }}
         />
+      )
+    }
+
+    if(this.state.login){
+      return (
+          <Redirect to={{
+              pathname: "/signin"
+          }} />
       )
     }
 
@@ -117,6 +126,10 @@ class SignUp extends Component {
             </div>
             <button className="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Sign Up</button>
           </form>
+          <p className="mt-3">
+            Already have an account?
+          </p>
+          <button class="btn btn-lg btn-primary border-0 " style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }} onClick={event => this.setState({ login: true })}>Sign In</button>
         </div>
       </div>
     )
