@@ -9,7 +9,7 @@ class Navbar extends Component {
         <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand">{this.props.name}</a>
           <span align="center" className="font-weight-bold">
-            To view a file, open in new tab
+            To view a file, open in new tab <br /> Use Navbar to navigate
           </span>
           <SignOut />
         </nav>
